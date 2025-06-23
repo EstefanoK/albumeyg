@@ -1,5 +1,3 @@
-// script.js COMPLETO con IndexedDB y menú hamburguesa funcional adaptado solo para móviles
-
 document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.querySelector('.carousel');
     const prevBtn = document.getElementById('prevBtn');
@@ -8,11 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const addImageTriggerBtn = document.getElementById('add-image-trigger');
     const imageInput = document.getElementById('image-input');
     const carouselWrapper = document.querySelector('.carousel-wrapper');
-    
-    // Variables para el control táctil
+
     let touchStartX = 0;
     let touchEndX = 0;
-    const SWIPE_THRESHOLD = 50; // Mínimo de píxeles para considerar un deslizamiento
+    const SWIPE_THRESHOLD = 50;
 
     const imagesByPage = {};
     let currentPage = 1;
@@ -26,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         baseOpacity: 1, opacityDecrement: 0.2
     };
 
-    // IndexedDB config
     const DB_NAME = 'GaleriaRecuerdosDB';
     const DB_VERSION = 1;
     const STORE_NAME = 'imagenesPorPagina';
@@ -35,14 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function openDatabase() {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(DB_NAME, DB_VERSION);
-
             request.onerror = (event) => reject(event);
-
             request.onsuccess = (event) => {
                 db = event.target.result;
                 resolve(db);
             };
-
             request.onupgradeneeded = (event) => {
                 db = event.target.result;
                 if (!db.objectStoreNames.contains(STORE_NAME)) {
@@ -68,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             request.onsuccess = async () => {
                 const keys = request.result;
                 const allPages = {};
-
                 for (let key of keys) {
                     const pageNumber = parseInt(key.split('-')[1]);
                     const pageData = await new Promise((res, rej) => {
@@ -78,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     allPages[pageNumber] = pageData;
                 }
-
                 resolve(allPages);
             };
 
@@ -179,13 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addImageToPage(imageData) {
         let pageToAddTo = currentPage;
-
         if (!imagesByPage[pageToAddTo]) {
             imagesByPage[pageToAddTo] = [];
         }
-
         let pageImages = imagesByPage[pageToAddTo];
-
         if (pageImages.length >= 8) {
             totalPages++;
             pageToAddTo = totalPages;
@@ -193,11 +181,10 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPage = pageToAddTo;
             pageImages = imagesByPage[pageToAddTo];
         }
-
         pageImages.push(imageData);
         renderCarouselForPage(pageToAddTo);
         updateImageCounter();
-        renderPagination();  // Mover después de actualizar el contador para asegurar consistencia
+        renderPagination();
         savePageToDB(pageToAddTo, pageImages);
     }
 
@@ -210,10 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                const newImage = {
-                    src: e.target.result,
-                    alt: file.name
-                };
+                const newImage = { src: e.target.result, alt: file.name };
                 addImageToPage(newImage);
             };
             reader.readAsDataURL(file);
@@ -221,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
         imageInput.value = '';
     });
 
-    // Función para ir a la imagen anterior con movimiento infinito
     const goToPrev = () => {
         if (items.length > 0) {
             currentIndex = (currentIndex - 1 + items.length) % items.length;
@@ -229,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Función para ir a la siguiente imagen con movimiento infinito
     const goToNext = () => {
         if (items.length > 0) {
             currentIndex = (currentIndex + 1) % items.length;
@@ -237,11 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Eventos de clic para los botones
     prevBtn.addEventListener('click', goToPrev);
     nextBtn.addEventListener('click', goToNext);
-    
-    // Eventos táctiles para el carrusel
+
     carouselWrapper.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
     }, false);
@@ -250,22 +230,13 @@ document.addEventListener('DOMContentLoaded', () => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
     }, false);
-    
-    // Manejar el gesto de deslizamiento
+
     const handleSwipe = () => {
         const difference = touchStartX - touchEndX;
-        
-        // Deslizamiento a la izquierda (siguiente imagen)
-        if (difference > SWIPE_THRESHOLD) {
-            goToNext();
-        } 
-        // Deslizamiento a la derecha (imagen anterior)
-        else if (difference < -SWIPE_THRESHOLD) {
-            goToPrev();
-        }
+        if (difference > SWIPE_THRESHOLD) goToNext();
+        else if (difference < -SWIPE_THRESHOLD) goToPrev();
     };
-    
-    // Hacer los botones más grandes en dispositivos táctiles
+
     if ('ontouchstart' in window) {
         prevBtn.style.padding = '15px';
         nextBtn.style.padding = '15px';
@@ -366,15 +337,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedPages = await loadAllPagesFromDB();
         Object.assign(imagesByPage, savedPages);
 
-        // Si no hay imágenes guardadas, inicializar con las imágenes predeterminadas
         if (Object.keys(imagesByPage).length === 0) {
-            const defaultImages = [];
-            // Agregar imágenes de 1.jpg a 11.jpg
+            const imagesPerPage = 4;
             for (let i = 1; i <= 11; i++) {
-                defaultImages.push(`img/${i}.jpg`);
+                const pageNumber = Math.ceil(i / imagesPerPage);
+                if (!imagesByPage[pageNumber]) imagesByPage[pageNumber] = [];
+                imagesByPage[pageNumber].push({
+                    src: `img/${i}.jpg`,
+                    alt: `${i}.jpg`
+                });
             }
-            imagesByPage[1] = defaultImages;
-            await savePageToDB(1, defaultImages);
+            for (const page in imagesByPage) {
+                await savePageToDB(parseInt(page), imagesByPage[page]);
+            }
         }
 
         totalPages = Object.keys(imagesByPage).length || 1;
@@ -383,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         enableImageZoom();
     })();
 
-      // Menú hamburguesa funcional solo para móviles
+    // Menú hamburguesa
     const toggleBtn = document.querySelector(".menu-toggle");
     const menu = document.querySelector(".mobile-menu");
 
@@ -391,21 +366,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const toggleMenu = () => {
             menu.classList.toggle("show");
             document.body.classList.toggle("menu-open");
-            
-            // Asegurarse de que solo el menú tenga scroll, no la página completa
-            if (menu.classList.contains("show")) {
-                menu.style.overflowY = "auto";
-            } else {
-                menu.style.overflowY = "";
-            }
+            menu.style.overflowY = menu.classList.contains("show") ? "auto" : "";
         };
 
         toggleBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); // Prevenir que el clic se propague al document
+            e.stopPropagation();
             toggleMenu();
         });
 
-        // Cerrar menú si se hace clic fuera de él
         document.addEventListener('click', (e) => {
             if (menu.classList.contains('show') && !menu.contains(e.target) && !toggleBtn.contains(e.target)) {
                 menu.classList.remove('show');
@@ -413,11 +381,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 menu.style.overflowY = "";
             }
         });
-        
-        // Prevenir que los clics dentro del menú cierren el menú
+
         menu.addEventListener('click', (e) => {
             e.stopPropagation();
         });
     }
-
 });
