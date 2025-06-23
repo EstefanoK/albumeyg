@@ -338,15 +338,19 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.assign(imagesByPage, savedPages);
 
         if (Object.keys(imagesByPage).length === 0) {
-            const imagesPerPage = 4;
+            // 8 imágenes por página
+            const imagesPerPage = 8;
             for (let i = 1; i <= 11; i++) {
                 const pageNumber = Math.ceil(i / imagesPerPage);
-                if (!imagesByPage[pageNumber]) imagesByPage[pageNumber] = [];
+                if (!imagesByPage[pageNumber]) {
+                    imagesByPage[pageNumber] = [];
+                }
                 imagesByPage[pageNumber].push({
                     src: `img/${i}.jpg`,
-                    alt: `${i}.jpg`
+                    alt: `Imagen ${i}`
                 });
             }
+            // Guardar cada página en la base de datos
             for (const page in imagesByPage) {
                 await savePageToDB(parseInt(page), imagesByPage[page]);
             }
