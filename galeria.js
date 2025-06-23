@@ -365,9 +365,22 @@ document.addEventListener('DOMContentLoaded', () => {
         await openDatabase();
         const savedPages = await loadAllPagesFromDB();
         Object.assign(imagesByPage, savedPages);
+
+        // Si no hay imágenes guardadas, inicializar con las imágenes predeterminadas
+        if (Object.keys(imagesByPage).length === 0) {
+            const defaultImages = [];
+            // Agregar imágenes de 1.jpg a 11.jpg
+            for (let i = 1; i <= 11; i++) {
+                defaultImages.push(`img/${i}.jpg`);
+            }
+            imagesByPage[1] = defaultImages;
+            await savePageToDB(1, defaultImages);
+        }
+
         totalPages = Object.keys(imagesByPage).length || 1;
-        renderCarouselForPage(currentPage);
         renderPagination();
+        renderCarouselForPage(currentPage);
+        enableImageZoom();
     })();
 
       // Menú hamburguesa funcional solo para móviles
