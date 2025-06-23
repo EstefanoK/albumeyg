@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Álbum Especial</title>
+    <link rel="icon" type="image/webp" href="img/logourl.webp">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hearts-container" id="heartsContainer"></div>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="left-section">
+                <div class="video-container">
+                    <video autoplay loop muted playsinline class="logo-video">
+                        <source src="video/videologo.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+            </div>
+            <div class="right-section">
+                <h1>Ingrese Contraseña</h1>
+                <div class="password-input">
+                    <input type="password" id="password" placeholder="Contraseña" readonly>
+                    <i class="lock-icon">🔒</i>
+                </div>
+                <div class="keypad">
+                    <div class="key" data-value="1">1</div>
+                    <div class="key" data-value="2">2</div>
+                    <div class="key" data-value="3">3</div>
+                    <div class="key" data-value="4">4</div>
+                    <div class="key" data-value="5">5</div>
+                    <div class="key" data-value="6">6</div>
+                    <div class="key" data-value="7">7</div>
+                    <div class="key" data-value="8">8</div>
+                    <div class="key" data-value="9">9</div>
+                    <div class="key" data-value=".">.</div>
+                    <div class="key" data-value="0">0</div>
+                    <div class="key" data-value="#">#</div>
+                </div>
+                <div id="message"></div>
+            </div>
+        </div>
+    </div>
+    <div id="album" class="hidden">
+        <h1>¡Bienvenido a Nuestro Álbum Especial!</h1>
+        <div class="gallery">
+            <!-- Las fotos se agregarán aquí dinámicamente -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+    
+    <!-- Alerta de error -->
+    <div id="errorAlert" class="alert">
+        <div class="alert-message">
+            <p id="errorMessage">Contraseña incorrecta 😢💔</p>
+        </div>
+    </div>
+</body>
+</html>

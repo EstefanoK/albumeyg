@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Tiempo Juntos</title>
+    <link rel="icon" type="image/webp" href="img/logourl.webp">
+    <link rel="stylesheet" href="contador.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="fireworks-container">
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+    </div>
+    
+    <div class="container">
+        <!-- Imagen circular simple -->
+        <div class="profile-image-container">
+            <img src="img/logo.png" alt="Foto de perfil" class="profile-image">
+        </div>
+        <div class="title-container">
+            <h1>Nuestro Tiempo Juntos</h1>
+            <div class="heart" id="heart">❤️</div>
+        </div>
+        <div class="counter-title">Tiempo juntos</div>
+        <div class="counter-container">
+            <div class="time-block">
+                <span id="years">0</span>
+                <span class="label">Años</span>
+            </div>
+            <div class="time-block">
+                <span id="months">0</span>
+                <span class="label">Meses</span>
+            </div>
+            <div class="time-block">
+                <span id="days">0</span>
+                <span class="label">Días</span>
+            </div>
+            <div class="time-block">
+                <span id="hours">00</span>
+                <span class="label">Horas</span>
+            </div>
+            <div class="time-block">
+                <span id="minutes">00</span>
+                <span class="label">Minutos</span>
+            </div>
+            <div class="time-block">
+                <span id="seconds">00</span>
+                <span class="label">Segundos</span>
+            </div>
+        </div>
+        <button id="siguienteBtn" class="siguiente-btn">Siguiente</button>
+    </div>
+    <script src="contador.js"></script>
+    <script>
+        document.getElementById('siguienteBtn').addEventListener('click', function() {
+            window.location.href = 'galeria.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,807 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(45deg, #141e30, #243b55);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    z-index: 10; /* Por encima de los fuegos artificiales */
+    background: rgba(20, 30, 48, 0.98); /* Fondo casi opaco */
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    max-width: 90%;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fireworks */
+.firework {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.8;
+    transform: translate(-50%, -50%);
+    top: 20% !important; /* Posición más alta */
+}
+
+/* Contenedor de fuegos artificiales */
+.fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Detrás del contenedor principal */
+    overflow: hidden;
+}
+
+/* Asegurar que el body tenga el contexto de apilamiento correcto */
+body {
+    position: relative;
+    z-index: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Estilos para la imagen de perfil */
+.profile-image-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 1.5rem;
+    border: 4px solid #ff8080;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 20;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Counter title */
+.counter-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: #fff;
+    text-align: center;
+    margin: 0 0 1.5rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 10;
+}
+
+/* Title container */
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .profile-image-container {
+        width: 25vw;
+        height: 25vw;
+        max-width: 100px;
+        max-height: 100px;
+        margin: 0 auto 1rem;
+    }
+    
+    .title-container {
+        margin: 1.5rem 0 1rem;
+        position: relative;
+        top: 35px;
+    }
+    
+    h1 {
+        font-size: 1.6rem;
+        margin: 0;
+        padding: 0 10px;
+        line-height: 1.2;
+        position: relative;
+        top: 0;
+    }
+    
+    .container {
+        padding: 2rem 1.5rem 1.5rem;
+        margin: 20px auto;
+        position: relative;
+        overflow: visible;
+    }
+}
+
+@keyframes firework {
+    0% { transform: translate(var(--x), var(--initialY)); width: var(--initialSize); opacity: 1; }
+    50% { width: 0.5vmin; opacity: 1; }
+    100% { width: var(--finalSize); opacity: 0; }
+}
+
+.firework,
+.firework::before,
+.firework::after {
+    --initialSize: 0.5vmin;
+    --finalSize: 45vmin;
+    --particleSize: 0.2vmin;
+    --color1: yellow;
+    --color2: khaki;
+    --color3: white;
+    --color4: lime;
+    --color5: gold;
+    --color6: mediumseagreen;
+    --y: -30vmin;
+    --x: -50%;
+    --initialY: 60vmin;
+    content: "";
+    animation: firework 2s infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, var(--y));
+    width: var(--initialSize);
+    aspect-ratio: 1;
+    background: 
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 50% 0%,
+        radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 100% 50%,
+        radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 50% 100%,
+        radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 0% 50%,
+        radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 80% 90%,
+        radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 95% 90%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 90% 70%,
+        radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 100% 60%,
+        radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 55% 80%,
+        radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 70% 77%,
+        radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 22% 90%,
+        radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 45% 90%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 33% 70%,
+        radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 10% 60%,
+        radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 31% 80%,
+        radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 28% 77%,
+        radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 13% 72%,
+        radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 80% 10%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 95% 14%,
+        radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 90% 23%,
+        radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 100% 43%,
+        radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 85% 27%,
+        radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 77% 37%,
+        radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 60% 7%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 22% 14%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 45% 20%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 33% 34%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 10% 29%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 31% 37%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 28% 7%,
+        radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 13% 42%;
+    background-size: var(--initialSize) var(--initialSize);
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.firework::before {
+    --x: -50%;
+    --y: -50%;
+    --initialY: -50%;
+    transform: translate(-50%, -50%) rotate(40deg) scale(1.3) rotateY(40deg);
+}
+
+.firework::after {
+    --x: -50%;
+    --y: -50%;
+    --initialY: -50%;
+    transform: translate(-50%, -50%) rotate(170deg) scale(1.15) rotateY(-30deg);
+}
+
+.firework:nth-child(2) {
+    --x: 30vmin;
+}
+
+.firework:nth-child(2),
+.firework:nth-child(2)::before,
+.firework:nth-child(2)::after {
+    --color1: pink;
+    --color2: violet;
+    --color3: fuchsia;
+    --color4: orchid;
+    --color5: plum;
+    --color6: lavender;  
+    --finalSize: 40vmin;
+    left: 30%;
+    top: 60%;
+    animation-delay: -0.25s;
+}
+
+.firework:nth-child(3) {
+    --x: -30vmin;
+    --y: -50vmin;
+}
+
+.firework:nth-child(3),
+.firework:nth-child(3)::before,
+.firework:nth-child(3)::after {
+    --color1: cyan;
+    --color2: lightcyan;
+    --color3: lightblue;
+    --color4: PaleTurquoise;
+    --color5: SkyBlue;
+    --color6: lavender;
+    --finalSize: 35vmin;
+    left: 70%;
+    top: 25%;
+    animation-delay: -0.4s;
+}
+
+/* Additional fireworks */
+.firework:nth-child(4),
+.firework:nth-child(4)::before,
+.firework:nth-child(4)::after {
+    --color1: #ff9ff3;
+    --color2: #feca57;
+    --color3: #ff6b6b;
+    --color4: #48dbfb;
+    --color5: #1dd1a1;
+    --color6: #f368e0;
+    --finalSize: 50vmin;
+    left: 15%;
+    top: 20%;
+    animation-delay: -0.8s;
+}
+
+/* More fireworks with different positions */
+.firework:nth-child(5),
+.firework:nth-child(5)::before,
+.firework:nth-child(5)::after {
+    --color1: #00d2d3;
+    --color2: #ff6b6b;
+    --color3: #feca57;
+    --color4: #5f27cd;
+    --color5: #54a0ff;
+    --color6: #ff9ff3;
+    --finalSize: 45vmin;
+    left: 85%;
+    top: 25%;
+    animation-delay: -1.2s;
+}
+
+.firework:nth-child(6),
+.firework:nth-child(6)::before,
+.firework:nth-child(6)::after {
+    --color1: #ff9f43;
+    --color2: #ff6b6b;
+    --color3: #ff9ff3;
+    --color4: #feca57;
+    --color5: #1dd1a1;
+    --color6: #f368e0;
+    --finalSize: 55vmin;
+    left: 30%;
+    top: 15%;
+    animation-delay: -1.6s;
+}
+
+/* Additional fireworks */
+.firework:nth-child(7) { left: 40%; top: 20%; animation-delay: -0.5s; }
+.firework:nth-child(8) { left: 60%; top: 25%; animation-delay: -1.0s; }
+.firework:nth-child(9) { left: 20%; top: 15%; animation-delay: -1.5s; }
+.firework:nth-child(10) { left: 80%; top: 20%; animation-delay: -0.8s; }
+.firework:nth-child(11) { left: 50%; top: 18%; animation-delay: -1.2s; }
+.firework:nth-child(12) { left: 70%; top: 22%; animation-delay: -0.9s; }
+
+.firework:nth-child(5),
+.firework:nth-child(5)::before,
+.firework:nth-child(5)::after {
+    --color1: #00d2d3;
+    --color2: #ff6b6b;
+    --color3: #feca57;
+    --color4: #5f27cd;
+    --color5: #54a0ff;
+    --color6: #ff9ff3;
+    --finalSize: 45vmin;
+    left: 50%;
+    top: 25%;
+    animation-delay: -1.2s;
+}
+
+.firework:nth-child(6),
+.firework:nth-child(6)::before,
+.firework:nth-child(6)::after {
+    --color1: #ff9f43;
+    --color2: #ff6b6b;
+    --color3: #ff9ff3;
+    --color4: #feca57;
+    --color5: #1dd1a1;
+    --color6: #f368e0;
+    --finalSize: 55vmin;
+    left: 80%;
+    top: 35%;
+    animation-delay: -1.6s;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(15px);
+    padding: 30px 70px 30px 120px; /* Más espacio a la izquierda para la imagen */
+    position: relative; /* Para que la imagen absoluta se posicione correctamente */
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 90%;
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    color: #fff;
+    font-size: 3.5em;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: inline-block;
+}
+
+.heart {
+    font-size: 2em;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+/* Estilos para el botón Siguiente */
+.siguiente-btn {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 30px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.siguiente-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+.siguiente-btn:active {
+    transform: translateY(1px);
+}
+
+.siguiente-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.siguiente-btn:hover::before {
+    opacity: 1;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b8b, #ff8e53);
+    bottom: -10px;
+    left: 20%;
+    border-radius: 3px;
+}
+
+.counter-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.time-block {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px 15px;
+    border-radius: 15px;
+    min-width: 90px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.time-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%) skewX(-15deg);
+    transition: transform 0.6s;
+}
+
+.time-block:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.time-block:hover::before {
+    transform: translateX(100%) skewX(-15deg);
+}
+
+.time-block span:first-child {
+    display: block;
+    font-size: 2.8em;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 10px rgba(255, 107, 139, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.time-block .label {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+
+.heart {
+    font-size: 1.8rem;
+    color: #ff6b8b;
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    animation: float 4s ease-in-out infinite, pulse 2s ease-in-out infinite;
+    text-shadow: 0 0 15px rgba(255, 107, 139, 0.7);
+    opacity: 1;
+    position: relative;
+    top: -1.2em; /* Ajuste fino para alinear con el texto */
+    line-height: 1; /* Asegura que la altura de línea no afecte la posición */
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-25px) rotate(5deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Estilos para fuegos artificiales */
+.firework {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.firework-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+@keyframes firework-animation {
+    0% {
+        transform: translate(-50%, -50%) translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) translate(
+            calc(var(--vx) * 50px), 
+            calc(var(--vy) * 50px)
+        );
+        opacity: 0;
+    }
+}
+
+/* Animación de rotación */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Animación de rotación */
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Imagen de perfil circular */
+.profile-image-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.3);
+    animation: girar 20s linear infinite;
+}
+
+.profile-image-container:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Estilos para los fuegos artificiales */
+.firework {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+}
+
+/* Estilos para las partículas */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: 
+            translate(
+                calc(-50% + cos(var(--angle)) * var(--distance)), 
+                calc(-50% + sin(var(--angle)) * var(--distance))
+            )
+            scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* Estilos de las partículas */
+.firework-particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transform-origin: center;
+    animation-timing-function: cubic-bezier(0.1, 0.3, 0.8, 1);
+}
+
+/* Animación de explosión de partículas */
+@keyframes particle-explode {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(var(--start-scale, 1));
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: 
+            translate(
+                calc(-50% + cos(var(--angle)) * var(--distance)), 
+                calc(-50% + sin(var(--angle)) * var(--distance))
+            )
+            rotate(calc(var(--rotation) * 2));
+        background: var(--color2);
+        filter: brightness(1.5);
+    }
+}
+
+/* Efecto de destello */
+.flash {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    animation: flash 0.5s ease-out;
+    pointer-events: none;
+}
+
+@keyframes flash {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+}
+
+/* Efecto de partículas */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: float-up linear infinite;
+}
+
+@keyframes float-up {
+    to { transform: translateY(-100vh); }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .container {
+        padding: 40px 30px;
+    }
+    
+    h1 {
+        font-size: 2.8em;
+    }
+    
+    .time-block {
+        min-width: 80px;
+        padding: 20px 10px;
+    }
+    
+    .time-block span:first-child {
+        font-size: 2.2em;
+    }
+    
+    .time-block .label {
+        font-size: 0.75em;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+        margin: 20px;
+        width: 95%;
+    }
+    
+    h1 {
+        font-size: 2.2em;
+    }
+    
+    .counter-container {
+        gap: 10px;
+    }
+    
+    .time-block {
+        min-width: 70px;
+        padding: 15px 8px;
+    }
+    
+    .time-block span:first-child {
+        font-size: 1.8em;
+    }
+    
+    .time-block .label {
+        font-size: 0.7em;
+        letter-spacing: 1px;
+    }
+}
+
+@media (max-width: 480px) {
+    .time-block {
+        min-width: 60px;
+        padding: 12px 5px;
+    }
+    
+    .time-block span:first-child {
+        font-size: 1.5em;
+    }
+    
+    .time-block .label {
+        font-size: 0.6em;
+    }
+}

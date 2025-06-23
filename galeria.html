@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sorpresa — Mis recuerdos</title>
+  <link rel="icon" type="image/webp" href="img/logourl.webp">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="galeria.css">
+</head>
+<body>
+
+  <!-- Botón hamburguesa (solo móviles) -->
+  <button class="menu-toggle" aria-label="Abrir menú">&#9776;</button>
+
+  <!-- Menú lateral para móviles -->
+  <nav class="mobile-menu hidden">
+    <ul>
+      <li><button class="btn-volver" onclick="window.location.href='contador.html'">🔄 Volver</button></li>
+      <li><button class="btn-cerrar" onclick="window.location.href='index.html'">🔒 Cerrar sesión</button></li>
+    </ul>
+  </nav>
+
+  <!-- Botón Cerrar sesión (solo visible en pantallas grandes) -->
+  <button onclick="window.location.href='index.html'" class="ir-contador-btn cerrar-sesion-btn">Cerrar sesión</button>
+
+  <h1 class="titulo-principal">Nuestros Recuerdos</h1>
+  <h3 class="subtitulo">Cada momento a tu lado se convierte en un tesoro para siempre</h3>
+
+  <!-- Botón Volver (solo visible en pantallas grandes) -->
+  <div class="boton-contador-container">
+    <button onclick="window.location.href='contador.html'" class="ir-contador-btn">Volver</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active"><i class="fa-solid fa-image"></i> Fotos</button>
+    <button class="tab" onclick="window.location.href='mensaje.html'"><i class="fa-solid fa-video"></i> Mensaje</button>
+  </div>
+
+  <div class="slider-container">
+    <div class="carousel-wrapper">
+      <div class="carousel"></div>
+      <button id="prevBtn" class="nav-btn prev-btn">‹</button>
+      <button id="nextBtn" class="nav-btn next-btn">›</button>
+      <div class="image-counter" id="image-counter">0/8</div>
+    </div>
+  </div>
+
+  <div class="controls-container">
+    <button id="add-image-trigger" class="add-image-btn"><i class="fa-solid fa-plus"></i> Añadir Imagen</button>
+    <input type="file" id="image-input" accept="image/*" style="display: none;">
+    <div id="pagination-container" class="pagination-container"></div>
+  </div>
+
+  <div id="custom-confirm" class="custom-modal hidden">
+    <div class="custom-modal-content">
+      <p>¿Estás seguro de que deseas eliminar esta imagen?</p>
+      <div class="modal-buttons">
+        <button id="confirm-yes" class="yes-btn">Sí</button>
+        <button id="confirm-no" class="no-btn">No</button>
+      </div>
+    </div>
+  </div>
+  <!-- Tu script principal -->
+  <script src="galeria.js"></script>
+  <script src="js/particles.js"></script>
+</body>
+</html>

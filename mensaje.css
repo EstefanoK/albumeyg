@@ -1,0 +1,214 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+}
+
+canvas {
+display: block;
+position: absolute;
+top: 0;
+left: 0;
+z-index: 0; /* Que esté en el fondo */
+pointer-events: auto; /* ACTIVAMOS para que el canvas reciba clics */
+}
+
+#messageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.motivationalMessage {
+  position: absolute;
+  font-size: clamp(1rem, 1.5vw, 2rem);
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffb6dc;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+  backdrop-filter: blur(6px);
+  font-family: 'Segoe UI', sans-serif;
+  user-select: none;
+  white-space: nowrap;
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+
+.gallery-button {
+  position: fixed;
+  top: clamp(20px, 4vh, 60px);
+  left: clamp(20px, 5vw, 60px);
+  background-color: #333;
+  color: black;
+  padding: 10px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s;
+  z-index: 1001;
+  font-size: clamp(0.7rem, 1vw, 1rem);
+  display: inline-block;
+  line-height: 1.4;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.gallery-button:hover {
+  background-color: #555;
+}
+
+.gallery-button:hover {
+  transform: scale(1.05);
+}
+
+/* Estilos para el título principal */
+.titulo-principal {
+  position: fixed;
+  top: 15%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-weight: bold;
+  text-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
+  margin: 0;
+  padding: 10px 20px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Estilos para el subtítulo */
+.subtitle-container {
+  position: fixed;
+  top: calc(15% + 4rem);
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 1000;
+  pointer-events: none;
+  padding: 0 20px;
+}
+
+.gradient-subtitle {
+  display: inline-block;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  font-weight: normal;
+  color: #ffccf2;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+  margin: 0;
+  max-width: 800px;
+  line-height: 1.4;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.color-panel {
+  position: fixed;
+  top: clamp(20px, 4vh, 60px);
+  right: clamp(20px, 5vw, 60px);
+  z-index: 1000;
+  text-align: right;
+}
+
+#toggleColors {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s;
+  font-size: clamp(0.7rem, 1vw, 1rem);
+}
+
+#toggleColors:hover {
+  background-color: #555;
+}
+
+#colorSelector {
+  opacity: 1;
+  max-height: 300px;
+  overflow: hidden;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgba(30, 30, 30, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  transition: opacity 0.4s ease, max-height 0.4s ease;
+}
+
+#colorSelector.hidden {
+  opacity: 0;
+  max-height: 0;
+  pointer-events: none;
+}
+
+.color-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+      0 0 8px rgba(255, 255, 255, 0.2),
+      inset 0 0 4px rgba(255, 255, 255, 0.1),
+      0 0 12px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(3px);
+}
+
+.color-circle:hover {
+  transform: scale(1.2);
+  box-shadow:
+      0 0 12px rgba(255, 255, 255, 0.6),
+      0 0 18px currentColor,
+      0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 600px) {
+  .gallery-button, #toggleColors {
+      padding: 8px 14px;
+  }
+
+  .color-circle {
+      width: 28px;
+      height: 28px;
+  }
+}

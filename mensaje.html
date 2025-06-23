@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Corazón de Partículas Animado</title>
+    <link rel="icon" type="image/webp" href="img/logourl.webp">
+    <link rel="stylesheet" href="mensaje.css" />
+</head>
+<body>
+    <!-- Canvas para la animación del corazón -->
+    <canvas id="particleHeartCanvas"></canvas>
+
+    <!-- Contenedor de mensajes motivacionales -->
+    <div id="messageContainer"></div>
+
+    <!-- Botón para ir a galería -->
+    <a href="galeria.html" class="gallery-button">Ir a Galería</a>
+
+    <!-- Panel de colores -->
+    <div class="color-panel">
+        <button id="toggleColors">🎨 Colores</button>
+        <div id="colorSelector" class="hidden">
+            <div class="color-circle" data-color="#ff0000" style="background-color:#ff0000;"></div>
+            <div class="color-circle" data-color="#00ff00" style="background-color:#00ff00;"></div>
+            <div class="color-circle" data-color="#0000ff" style="background-color:#0000ff;"></div>
+            <div class="color-circle" data-color="#ffff00" style="background-color:#ffff00;"></div>
+            <div class="color-circle" data-color="#ff00ff" style="background-color:#ff00ff;"></div>
+            <div class="color-circle" data-color="#00ffff" style="background-color:#00ffff;"></div>
+            <div class="color-circle" data-color="#ffa500" style="background-color:#ffa500;"></div>
+            <div class="color-circle" data-color="#ffffff" style="background-color:#ffffff;"></div>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="mensaje.js"></script>
+</body>
+</html>

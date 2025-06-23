@@ -1,0 +1,805 @@
+/* Variables globales */
+:root {
+    --touch-target-min: 48px;
+    --primary-color: #ff6b8b;
+    --hover-color: #ff4d73;
+    --shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    --transition: all 0.2s ease;
+}
+
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Mejora de la respuesta táctil */
+html {
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+}
+
+:root {
+    --padding-container: 15px;
+}
+
+/* Estilos base para móviles */
+html {
+    font-size: 12px; /* Tamaño base más pequeño para móviles */
+}
+
+/* Tablets pequeñas */
+@media (min-width: 480px) {
+    html {
+        font-size: 13px;
+    }
+}
+
+/* Tablets */
+@media (min-width: 600px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+/* Tablets grandes / Laptops pequeñas */
+@media (min-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1200px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+/* Estilos para los corazones */
+.heart {
+    position: fixed;
+    bottom: -50px; /* Comenzar ligeramente fuera de la pantalla */
+    left: var(--start-pos-x, 50%);
+    z-index: -1;
+    opacity: 0;
+    animation: 
+        float-up linear forwards, 
+        float-horizontal 4s ease-in-out infinite alternate,
+        fade-in 0.5s ease-out forwards;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(0) rotate(var(--rotation, 0deg));
+    will-change: transform, opacity;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.7));
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateX(-50%) translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(calc(-50% + var(--oscillation, 0))) translateY(calc(-100vh - 100px)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 0.8; }
+}
+
+@keyframes float-horizontal {
+    0%, 100% {
+        transform: translateX(calc(-50% - var(--oscillation, 0) / 2));
+    }
+    50% {
+        transform: translateX(calc(-50% + var(--oscillation, 0) / 2));
+    }
+}
+
+body {
+    background: linear-gradient(135deg, #f8f4ff 0%, #eaf2ff 50%, #f0f8ff 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 20s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Contenedor para los corazones */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background: linear-gradient(to top, rgba(255, 192, 203, 0.1) 0%, rgba(255, 255, 255, 0) 50%);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Estilos del contenedor de login */
+.login-container {
+    width: 95%;
+    max-width: 900px;
+    min-height: auto;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    background-clip: padding-box;
+    animation: borderGlow 3s infinite alternate;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    
+    /* Ajustes para móviles */
+    @media (max-width: 480px) {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+    
+    /* Ajustes para tablets */
+    @media (min-width: 481px) and (max-width: 1024px) {
+        min-height: auto;
+        margin: 20px auto;
+    }
+}
+
+
+@keyframes borderGlow {
+    0% {
+        border-color: rgba(147, 112, 219, 0.4);
+        box-shadow: 0 0 15px rgba(147, 112, 219, 0.2);
+    }
+    50% {
+        border-color: rgba(255, 105, 180, 0.5);
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+    }
+    100% {
+        border-color: rgba(100, 149, 237, 0.4);
+        box-shadow: 0 0 25px rgba(100, 149, 237, 0.2);
+    }
+}
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0 15px;
+    
+    /* Para pantallas medianas y grandes */
+    @media (min-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+        min-height: 500px;
+    }
+    
+    /* Para pantallas muy grandes */
+    @media (min-width: 1200px) {
+        min-height: 600px;
+    }
+}
+
+/* Sección izquierda con el video */
+.left-section {
+    flex: 1;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    position: relative;
+    min-height: 200px;
+    
+    /* Ajustes para móviles en posición horizontal */
+    @media (max-height: 480px) and (orientation: landscape) {
+        min-height: 150px;
+        padding: 5px;
+    }
+    
+    /* Para tablets y escritorio */
+    @media (min-width: 768px) {
+        min-height: 300px;
+        padding: 20px;
+    }
+    
+    /* Para pantallas grandes */
+    @media (min-width: 1024px) {
+        min-height: 400px;
+    }
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para el contenedor del video */
+.video-container {
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #000;
+    padding: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    
+    /* Efecto hover solo en dispositivos con hover */
+    @media (hover: hover) {
+        &:hover {
+            transform: scale(1.03);
+        }
+    }
+    
+    /* Ajustes para móviles */
+    @media (max-width: 480px) {
+        max-width: 200px;
+    }
+    
+    /* Ajustes para tablets */
+    @media (min-width: 481px) and (max-width: 768px) {
+        max-width: 220px;
+    }
+    
+    /* Ajustes para pantallas grandes */
+    @media (min-width: 1200px) {
+        max-width: 280px;
+    }
+}
+
+/* Estilos para el video del logo */
+.logo-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* Media queries para diferentes tamaños de pantalla */
+@media (max-width: 480px) {
+    .video-container {
+        width: 80%;
+        max-width: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    .video-container {
+        max-width: 250px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .video-container {
+        max-width: 280px;
+    }
+}
+
+/* Estilos para la imagen especial (mantenido por compatibilidad) */
+.special-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección derecha con el formulario */
+.right-section {
+    flex: 1;
+    padding: 40px 40px 40px; /* Reducido el padding superior de 60px a 40px */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    
+    @media (min-width: 480px) {
+        padding: 30px;
+    }
+    
+    @media (min-width: 768px) {
+        padding: 40px;
+    }
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    color: #ff6b8b;
+    text-align: center;
+    margin: 0 0 20px 0;
+    padding: 10px 0 0 0;
+    font-size: 2.5em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 2;
+    
+    @media (min-width: 768px) {
+        margin-top: -10px;
+        padding-top: 0;
+    }
+}
+
+.password-input {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 25px;
+    
+    @media (max-width: 480px) {
+        margin-bottom: 20px;
+    }
+}
+
+.password-input input {
+    width: 100%;
+    padding: 12px 20px 12px 50px;
+    border: 2px solid #e0e0e0;
+    border-radius: 30px;
+    font-size: 18px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    
+    @media (max-width: 480px) {
+        padding: 10px 15px 10px 45px;
+        font-size: 16px;
+    }
+    
+    @media (min-width: 768px) and (max-width: 1024px) {
+        padding: 14px 20px 14px 50px;
+    }
+}
+
+.password-input input:focus {
+    border-color: #ff6b8b;
+}
+
+.lock-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #777;
+}
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+    
+    @media (max-width: 480px) {
+        gap: 8px;
+        max-width: 280px;
+    }
+    
+    @media (min-width: 768px) and (max-width: 1024px) {
+        max-width: 280px;
+        gap: 12px;
+    }
+    
+    @media (min-width: 1200px) {
+        max-width: 320px;
+        gap: 15px;
+    }
+}
+
+.key {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 80px;
+    height: auto;
+    margin: 0 auto;
+    
+    @media (max-width: 480px) {
+        font-size: 18px;
+        max-width: 70px;
+    }
+    
+    @media (min-width: 481px) and (max-width: 768px) {
+        font-size: 20px;
+        max-width: 75px;
+    }
+    
+    @media (min-width: 1024px) {
+        font-size: 22px;
+        max-width: 85px;
+    }
+}
+
+/* Efecto al tocar */
+.key:active {
+    transform: scale(0.95);
+    background-color: #f5f5f5;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Efecto de onda al tocar */
+.key::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.key:active::after {
+    opacity: 1;
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Mensaje de error */
+#message {
+    margin-top: 15px;
+    color: #ff4d4d;
+    text-align: center;
+    font-size: 1.1em;
+    min-height: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+#message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#message .sad-face {
+    font-size: 1.5em;
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Estilos para la alerta de error */
+.alert {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffebee;
+    border: 2px solid #ef9a9a;
+    border-radius: 12px;
+    padding: 12px 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-width: 90%;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+    color: #c62828;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    animation: slideDown 0.5s ease-out;
+}
+
+.alert-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert-message p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.alert-message p span {
+    font-size: 18px;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -30px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+.alert.show {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    animation: slideDown 0.3s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.alert.show {
+    display: flex;
+}
+
+.alert-icon {
+    font-size: 24px;
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.alert p {
+    margin: 0;
+    color: #d32f2f;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.alert p span {
+    font-size: 1.4em;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 480px) {
+    .alert {
+        width: 95%;
+        top: 10px;
+    }
+    
+    .alert-content {
+        padding: 12px 15px;
+    }
+    
+    .alert-icon {
+        font-size: 24px;
+        margin-right: 12px;
+    }
+    
+    .alert p {
+        font-size: 0.95rem;
+    }
+    
+    #closeAlert {
+        font-size: 22px;
+        padding-left: 10px;
+    }
+}
+
+/* Efecto de pulso para la carita triste */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.alert.show .alert-icon {
+    animation: bounce 0.6s ease, pulse 2s infinite;
+}
+
+/* Estilos del álbum */
+#album {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px 40px 40px; /* Reducido el padding superior para subir el contenido */
+    text-align: center;
+    margin-top: -20px; /* Subir todo el álbum un poco */
+}
+
+#album h1 {
+    font-size: 2.5em;
+    margin-bottom: 30px; /* Reducido el margen inferior */
+    padding-top: 20px; /* Añadido padding superior al título */
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 10px 0 20px; /* Ajustado el padding vertical */
+    margin-top: -10px; /* Subir la galería un poco */
+}
+
+.gallery img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    margin-top: -5px; /* Subir ligeramente las imágenes */
+}
+
+.gallery img:hover {
+    transform: scale(1.05) translateY(-5px); /* Añadido movimiento hacia arriba al hacer hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada al hacer hover */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .login-box {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .left-section {
+        padding: 40px 20px;
+        height: 300px;
+    }
+    
+    .right-section {
+        padding: 30px;
+    }
+    
+    .keypad {
+        gap: 10px;
+    }
+    
+    .key {
+        height: 50px;
+        font-size: 20px;
+    }
+}
+
+/* Corazones flotantes */
+.heart {
+    position: fixed;
+    font-size: 20px;
+    color: #ff6b8b;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: float 4s ease-in-out infinite;
+    z-index: 1;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Animaciones */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s;
+    border-color: #ff4d6d !important;
+}
