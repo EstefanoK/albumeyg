@@ -77,6 +77,19 @@ body::-webkit-scrollbar {
     max-width: 100%;
     overflow: visible;
   }
+  
+  .pagination-container {
+    padding-bottom: 5px;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .page-btn {
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 0.9rem;
+    margin: 0 2px;
+  }
 }
 
 @keyframes gradientBG {
@@ -139,6 +152,25 @@ h2, h3.subtitulo {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* Estilos para el contenedor de paginación */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+  padding: 10px 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Para Firefox */
+}
+
+.pagination-container::-webkit-scrollbar {
+  display: none; /* Para Chrome, Safari y Opera */
 }
 
 /* Media Queries para diferentes tamaños de pantalla */
