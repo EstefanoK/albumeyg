@@ -4,8 +4,11 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Detectar si es móvil
+const isMobile = window.innerWidth < 768;
+
 const settings = {
-    particleCount: 600,
+    particleCount: isMobile ? 200 : 600,
     heartScale: getResponsiveHeartScale(),
     particleBaseSize: 2.2,
     particleLife: 100,
@@ -66,7 +69,7 @@ class Particle {
         ctx.globalAlpha = 1;
         ctx.fillStyle = settings.particleColor;
         ctx.shadowColor = settings.glowColor;
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = isMobile ? 2 : 10; // Reducido en móviles
         ctx.translate(heartOrigin.x + this.x, heartOrigin.y + this.y);
         ctx.scale(this.size, this.size);
         ctx.fill(heartShape);
@@ -94,14 +97,13 @@ function animate() {
 
     ctx.save();
     ctx.translate(heartOrigin.x, heartOrigin.y);
-
     const fontSize = Math.max(20, Math.min(42, window.innerWidth / 20));
     ctx.font = `bold ${fontSize}px 'Segoe UI', sans-serif`;
     ctx.fillStyle = settings.textColor;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.shadowColor = settings.glowColor;
-    ctx.shadowBlur = 8;
+    ctx.shadowBlur = isMobile ? 2 : 8;
     ctx.fillText("Dame click", 0, 0);
     ctx.restore();
 
@@ -113,9 +115,7 @@ window.addEventListener('resize', () => {
     canvas.height = window.innerHeight;
     heartOrigin.x = canvas.width / 2;
     heartOrigin.y = canvas.height / 2;
-
     settings.heartScale = getResponsiveHeartScale();
-
     init();
 });
 
@@ -146,27 +146,20 @@ let availableMessages = [];
 let currentMessageIndex = 0;
 
 function getRandomMessage() {
-    // Si no hay mensajes disponibles o ya se mostraron todos, reiniciar la lista
     if (availableMessages.length === 0) {
-        // Crear una copia del array de mensajes
         availableMessages = [...messages];
-        // Mezclar aleatoriamente los mensajes
         for (let i = availableMessages.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [availableMessages[i], availableMessages[j]] = [availableMessages[j], availableMessages[i]];
         }
         currentMessageIndex = 0;
     }
-    
-    // Obtener el siguiente mensaje y mover el índice
+
     const message = availableMessages[currentMessageIndex];
     currentMessageIndex = (currentMessageIndex + 1) % availableMessages.length;
-    
-    // Si hemos llegado al final, vaciar el array para reiniciar en la próxima llamada
-    if (currentMessageIndex === 0) {
-        availableMessages = [];
-    }
-    
+
+    if (currentMessageIndex === 0) availableMessages = [];
+
     return message;
 }
 
@@ -195,7 +188,11 @@ function showMotivationalMessage(x, y) {
         height: msg.offsetHeight,
     });
 
-    // Mensaje permanecerá visible hasta que la página se recargue
+    // Limitar cantidad de mensajes flotantes
+    if (floatingMessages.length > 12) {
+        const old = floatingMessages.shift();
+        old.el.remove();
+    }
 }
 
 function updateMessages() {
@@ -222,20 +219,19 @@ canvas.addEventListener('click', (e) => {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left - heartOrigin.x;
     const y = e.clientY - rect.top - heartOrigin.y;
-
     const d = Math.pow(x / (settings.heartScale * 16), 2) + Math.pow((y / (settings.heartScale * 13)), 2);
+
     if (d <= 1.2) {
         showMotivationalMessage(e.clientX, e.clientY);
     }
 });
 
-// --- Panel de colores: toggle mostrar/ocultar ---
+// Panel de colores
 document.getElementById('toggleColors').addEventListener('click', () => {
     const selector = document.getElementById('colorSelector');
     selector.classList.toggle('hidden');
 });
 
-// Función para aplicar un color a todos los elementos
 function applyColor(color) {
     if (!color) return;
     
@@ -252,18 +248,15 @@ function applyColor(color) {
         galleryBtn.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
         galleryBtn.style.boxShadow = `0 0 15px rgba(${r}, ${g}, ${b}, 0.6)`;
     }
-    
-    // Guardar el color seleccionado
+
     localStorage.setItem('heartColor', color);
 }
 
-// --- Cargar color guardado al iniciar ---
 document.addEventListener('DOMContentLoaded', () => {
     const savedColor = localStorage.getItem('heartColor');
     if (savedColor) {
         applyColor(savedColor);
-        
-        // Marcar como seleccionado el círculo del color guardado
+
         document.querySelectorAll('.color-circle').forEach(circle => {
             if (circle.getAttribute('data-color') === savedColor) {
                 circle.style.border = '2px solid white';
@@ -273,21 +266,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- Cambiar color del corazón, texto y botón ---
 document.querySelectorAll('.color-circle').forEach(circle => {
     circle.addEventListener('click', () => {
         const selectedColor = circle.getAttribute('data-color');
-        
-        // Aplicar el color seleccionado
         applyColor(selectedColor);
-        
-        // Actualizar estilos visuales de los círculos
+
         document.querySelectorAll('.color-circle').forEach(c => {
             c.style.border = 'none';
             c.style.boxShadow = 'none';
         });
-        
-        // Resaltar el círculo seleccionado
+
         circle.style.border = '2px solid white';
         circle.style.boxShadow = '0 0 10px white';
     });
