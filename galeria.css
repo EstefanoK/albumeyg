@@ -458,17 +458,28 @@ h2, h3.subtitulo {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: 5px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin: 10px 0 20px;
+  padding: 10px 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Para Firefox */
   z-index: 10;
+}
+
+.pagination-container::-webkit-scrollbar {
+  display: none; /* Para Chrome, Safari y Opera */
 }
 
 .page-btn {
   background-color: #dcdcdc;
   border: none;
-  width: 40px;
-  height: 40px;
+  min-width: 36px;
+  min-height: 36px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   font-size: 1rem;
   font-weight: 600;
@@ -476,6 +487,7 @@ h2, h3.subtitulo {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  flex-shrink: 0; /* Evita que los botones se encojan */
 }
 
 .page-btn:hover {
